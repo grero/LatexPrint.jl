@@ -345,7 +345,7 @@ function tabular{K,V<:Real}(A::Dict{K,Dict{K,V}},use_keys::Array{K,1}=K[])
             end
         end
     end
-    println("\n\\end{tabular}")
+    println("\\end{tabular}")
 end
 
 
