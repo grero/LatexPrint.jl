@@ -307,8 +307,12 @@ function tabular{T}(A::Array{T,2})
     tabular(A,alignment)
 end
 
-function tabular{K,V<:Real}(A::Dict{K,Dict{K,V}})
-    colnames = collect(keys(A))
+function tabular{K,V<:Real}(A::Dict{K,Dict{K,V}},use_keys::Array{K,1}=K[])
+    if isempty(use_keys)
+        colnames = collect(keys(A))
+    else
+        colnames = use_keys
+    end
     ncols = length(colnames)
     alignment = string("l", "c"^ncols)
     rownames = K[]
