@@ -307,6 +307,43 @@ function tabular{T}(A::Array{T,2})
     tabular(A,alignment)
 end
 
+function tabular{K,V<:Real}(A::Dict{K,Dict{K,V}})
+    colnames = collect(keys(A))
+    ncols = length(colnames)
+    alignment = string("l", "c"^ncols)
+    rownames = K[]
+    println("\\begin{tabular}{", alignment, "}")
+    for v in values(A)
+        append!(rownames,collect(keys(v)))
+    end
+    rownames = union(rownames)
+    nrows = length(rownames)
+    print(" & ")
+    for (i,k) in enumerate(colnames)
+        print(latex_form(k))
+        if i < ncols
+            print(" & ")
+        else
+            println("\\\\")
+        end
+    end
+    println("\\hline")
+    for k in rownames
+        print(k)
+        print(" & ")
+        for (j,kk) in enumerate(colnames)
+            x = get(A[kk], k,zero(V))
+            print("\$", latex_form(x), "\$")
+            if j < ncols
+                print(" & ")
+            else
+                println("\\\\")
+            end
+        end
+    end
+    println("\n\\end{tabular}")
+end
+
 
 
 end # end of module LatexPrint
