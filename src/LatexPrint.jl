@@ -1,4 +1,5 @@
 module LatexPrint
+using Compat
 
 export latex_form, laprint, laprintln, lap, tabular
 
@@ -235,6 +236,10 @@ function latex_form{T}(A::Array{T,2})
     return result
 end
 
+#string
+@compat function latex_form(s::AbstractString)
+    replace(s, "_","\\_")
+end
 # catch all for any types we've not implemented
 latex_form(x::Any) = string(x)
 
